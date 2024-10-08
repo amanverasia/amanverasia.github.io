@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Let Me Google That For You Clone</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #search-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        #search-box {
+            width: 500px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 24px;
+            outline: none;
+        }
+        #search-button {
+            margin-left: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #message, #additional-message {
+            font-size: 18px;
+            color: #333;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        #additional-message {
+            margin-top: 10px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div id="search-container">
+        <input type="text" id="search-box" placeholder="Search Google">
+        <button id="search-button">Search</button>
+    </div>
+    <div id="message">There, was that so difficult to Google?</div>
+    <div id="additional-message">Now click on search button to search google dummy</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchBox = document.getElementById('search-box');
+            const message = document.getElementById('message');
+            const additionalMessage = document.getElementById('additional-message');
+            const searchButton = document.getElementById('search-button');
+            
+            // Get the search query from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const query = urlParams.get('q');
+            
+            if (query) {
+                // Simulate typing the query
+                let index = 0;
+                function typeQuery() {
+                    if (index < query.length) {
+                        searchBox.value += query.charAt(index);
+                        index++;
+                        setTimeout(typeQuery, 100);
+                    } else {
+                        // Show the messages after typing is complete
+                        setTimeout(() => {
+                            message.style.opacity = 1;
+                            setTimeout(() => {
+                                additionalMessage.style.opacity = 1;
+                            }, 1000);
+                        }, 500);
+                    }
+                }
+                typeQuery();
+            }
+
+            // Add click event to the search button
+            searchButton.addEventListener('click', function() {
+                const searchQuery = searchBox.value;
+                if (searchQuery) {
+                    window.location.href = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
